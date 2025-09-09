@@ -44,7 +44,8 @@ spec:
           type: RuntimeDefault
       containers:
         - name: app
-          image: "jakirhosen9395/go-app-cicd:34"  # Jenkins will replace __TAG__ with ${BUILD_ID}
+          # CI sed will rewrite this entire line to: image: "jakirhosen9395/cicd-go-app:${BUILD_ID}"
+          image: "jakirhosen9395/cicd-go-app:0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -85,26 +86,9 @@ spec:
   type: LoadBalancer
   ports:
     - name: http
-      port: 9001        # external service port
-      targetPort: 9000  # container port
+      port: 9001
+      targetPort: 9000
       protocol: TCP
-
-# --- Alternative: NodePort (uncomment if you don't have a LoadBalancer) ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: go-app-cicd
-#   namespace: go-app-cicd
-# spec:
-#   selector:
-#     app: go-app-cicd
-#   type: NodePort
-#   ports:
-#     - name: http
-#       port: 9001
-#       targetPort: 9000
-#       nodePort: 32001  # must be within 30000-32767
-#       protocol: TCP
 ---
 apiVersion: policy/v1
 kind: PodDisruptionBudget
@@ -137,7 +121,6 @@ spec:
           type: Utilization
           averageUtilization: 70
 ---
-# Optional: only allow ingress to port 9000 from within the namespace
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
