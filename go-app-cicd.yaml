@@ -44,8 +44,8 @@ spec:
           type: RuntimeDefault
       containers:
         - name: app
-          # CI sed will rewrite this entire line to: image: "jakirhosen9395/cicd-go-app:24"
-          image: "jakirhosen9395/cicd-go-app:24"
+          # CI sed will rewrite this entire line to: image: "jakirhosen9395/cicd-go-app:25"
+          image: "jakirhosen9395/cicd-go-app:25"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
